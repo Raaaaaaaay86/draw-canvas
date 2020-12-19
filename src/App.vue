@@ -50,7 +50,7 @@ export default {
       const future = [];
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-
+      console.log(window);
       // 繪畫功能
       canvas.addEventListener('mousedown', (e) => {
         lastMousePosition.x = e.clientX;
@@ -108,6 +108,7 @@ export default {
 
 <style lang="scss">
 canvas {
+  position: absolute;
   background-color:#E8E8E8;
   z-index: 100;
 }
