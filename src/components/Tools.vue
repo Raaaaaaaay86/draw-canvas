@@ -3,9 +3,23 @@ div.tools#toolBar
   div(class="tools-btn" @click="toggleToolbar()")
     i(class=" fas fa-angle-down" v-if="toolbarIsShow")
     i(class=" fas fa-angle-up" v-else)
-  div(class="pen" @click="isUsingPen = true" :class="isUsingPen ? 'active' : ''")
+  div(
+    class="pen"
+    @click="USING_TOOL = 'pen'"
+    :class="USING_TOOL === 'pen' ? 'active' : ''"
+  )
     i.fas.fa-paint-brush.fa-2x
-  div(class="eraser" @click="useEraser()" :class="isUsingPen ? '' : 'active'")
+  div(
+    class="spray"
+    @click="USING_TOOL = 'spray'"
+    :class="USING_TOOL === 'spray' ? 'active' : ''"
+  )
+    i.fas.fa-spray-can.fa-2x
+  div(
+    class="eraser"
+    @click="useEraser()"
+    :class="USING_TOOL === 'eraser' ? 'active' : ''"
+  )
     i.fas.fa-eraser.fa-2x
   div.size
     span size:
@@ -32,8 +46,8 @@ import { inject, reactive, ref } from 'vue';
 export default {
   setup() {
     const toolbarIsShow = ref(true);
-    const isUsingPen = ref(true);
     const CURRENT_COLOR = inject('CURRENT_COLOR');
+    const USING_TOOL = inject('USING_TOOL');
     const LINE_WIDTH = inject('LINE_WIDTH');
     const colorList = reactive(['#FFFFFF', '#000000', '#9BFFCD', '#00CC99', '#01936F']);
 
@@ -63,12 +77,12 @@ export default {
       colorMenuList.forEach((color) => color.classList.remove('active'));
       event.target.classList.add('active');
 
-      isUsingPen.value = true;
+      if (USING_TOOL.value === 'eraser') USING_TOOL.value = 'pen';
       CURRENT_COLOR.value = selectColorCode;
     };
 
     const useEraser = () => {
-      isUsingPen.value = false;
+      USING_TOOL.value = 'eraser';
       CURRENT_COLOR.value = '#E8E8E8';
     };
 
@@ -88,7 +102,7 @@ export default {
       addNewColor,
       changeCurrentColor,
       LINE_WIDTH,
-      isUsingPen,
+      USING_TOOL,
       useEraser,
       isDark,
     };
@@ -241,7 +255,7 @@ export default {
   right: 0;
 }
 
-.pen, .eraser {
+.pen, .eraser, .spray {
   color: #E8E8E8;
   cursor: pointer;
   &.active {

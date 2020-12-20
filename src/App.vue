@@ -30,6 +30,7 @@ export default {
   setup() {
     const lineWidth = ref(10);
     const isMouseDown = ref(false);
+    const UsingTool = ref('pen');
     const currentColor = ref('');
     const lastMousePosition = reactive({
       x: 0,
@@ -42,6 +43,7 @@ export default {
 
     provide('LINE_WIDTH', lineWidth);
     provide('CURRENT_COLOR', currentColor);
+    provide('USING_TOOL', UsingTool);
 
     onMounted(() => {
       const canvas = document.getElementById('canvas');
@@ -50,7 +52,7 @@ export default {
       const future = [];
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      console.log(window);
+
       // 繪畫功能
       canvas.addEventListener('mousedown', (e) => {
         lastMousePosition.x = e.clientX;
@@ -62,7 +64,7 @@ export default {
         if (!isMouseDown.value) return;
         currentMousePosition.x = e.clientX;
         currentMousePosition.y = e.clientY;
-        draw(context, currentColor, lineWidth, lastMousePosition, currentMousePosition);
+        draw(context, currentColor, lineWidth, lastMousePosition, currentMousePosition, UsingTool);
         lastMousePosition.x = currentMousePosition.x;
         lastMousePosition.y = currentMousePosition.y;
       });
