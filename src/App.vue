@@ -31,7 +31,7 @@ export default {
     const lineWidth = ref(10);
     const isMouseDown = ref(false);
     const UsingTool = ref('pen');
-    const currentColor = ref('');
+    const currentColor = ref('#000');
     const lastMousePosition = reactive({
       x: 0,
       y: 0,
@@ -64,7 +64,11 @@ export default {
         if (!isMouseDown.value) return;
         currentMousePosition.x = e.clientX;
         currentMousePosition.y = e.clientY;
-        draw(context, currentColor, lineWidth, lastMousePosition, currentMousePosition, UsingTool);
+        if (UsingTool.value === 'eraser') {
+          draw(context, { value: '#E8E8E8' }, lineWidth, lastMousePosition, currentMousePosition, UsingTool);
+        } else {
+          draw(context, currentColor, lineWidth, lastMousePosition, currentMousePosition, UsingTool);
+        }
         lastMousePosition.x = currentMousePosition.x;
         lastMousePosition.y = currentMousePosition.y;
       });

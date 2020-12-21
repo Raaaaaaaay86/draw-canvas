@@ -83,7 +83,7 @@ export default {
 
     const useEraser = () => {
       USING_TOOL.value = 'eraser';
-      CURRENT_COLOR.value = '#E8E8E8';
+      // CURRENT_COLOR.value = '#E8E8E8';
     };
 
     const isDark = (hexColor) => {
